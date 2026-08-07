@@ -1,4 +1,5 @@
 import { maxLength, z } from "zod";
+import { ALL_ROLES } from "../constants/roles.constants.js";
 
 export const nameSchema = z
   .string()
@@ -21,13 +22,7 @@ export const tokenSchema = z.string();
 
 export const isActiveSchema = z.boolean();
 
-export const roleSchema = z.enum([
-  "SUPERADMIN",
-  "ADMIN",
-  "ENGINEER",
-  "RECRUITER",
-  "USER",
-]);
+export const roleSchema = z.enum(ALL_ROLES);
 
 export const passwordSchema = z
   .string()

@@ -1,7 +1,8 @@
-import * as AppConstants from "../constants/app.constants.js";
 import ApiResponse from "../utils/ApiResponse.utils.js";
 const errorHandler = (err, req, res, next) => {
-  console.log(err);
+  if (!err.httpStatusCode || err.httpStatusCode >= 500) {
+    console.log(err);
+  }
 
   const httpStatusCode = err.httpStatusCode || 500;
   const error = err.error || err;

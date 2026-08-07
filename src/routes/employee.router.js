@@ -4,6 +4,7 @@ import asyncHandler from "../utils/asyncHandler.utils.js";
 import validate from "../middlewares/validate.middleware.js";
 import authenticate from "../middlewares/authentication.middleware.js";
 import authorize from "../middlewares/authorization.middleware.js";
+import { ROLES } from "../constants/roles.constants.js";
 
 import { uploadTeamFiles } from "../middlewares/teamMulter.middleware.js";
 
@@ -20,7 +21,7 @@ teamRouter.get(
 teamRouter.post(
   "/createTeamMember",
   asyncHandler(authenticate),
-  asyncHandler(authorize("ADMIN", "RECRUITER")),
+  asyncHandler(authorize(ROLES.ADMIN, ROLES.RECRUITER)),
   uploadTeamFiles,
   validate(TeamValidator.createTeamMemberRequestSchema),
   asyncHandler(TeamController.createTeamMemberController)
@@ -29,7 +30,7 @@ teamRouter.post(
 teamRouter.patch(
   "/editTeamMember/:teamMemberId",
   asyncHandler(authenticate),
-  asyncHandler(authorize("ADMIN", "RECRUITER")),
+  asyncHandler(authorize(ROLES.ADMIN, ROLES.RECRUITER)),
   uploadTeamFiles,
   validate(TeamValidator.editTeamMemberRequestSchema),
   asyncHandler(TeamController.editTeamMemberController)
@@ -38,7 +39,7 @@ teamRouter.patch(
 teamRouter.delete(
   "/deleteTeamMember/:teamMemberId",
   asyncHandler(authenticate),
-  asyncHandler(authorize("ADMIN", "RECRUITER")),
+  asyncHandler(authorize(ROLES.ADMIN, ROLES.RECRUITER)),
   asyncHandler(TeamController.deleteTeamMemberByIdController)
 );
 

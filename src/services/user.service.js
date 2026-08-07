@@ -2,6 +2,7 @@ import * as SessionRepo from "../repositories/session.repository.js";
 import * as UserRepo from "../repositories/user.repository.js";
 import AppError from "../utils/AppError.utils.js";
 import * as Tokens from "../utils/token.utils.js";
+import { ROLES } from "../constants/roles.constants.js";
 
 export const loginUserService = async (userDetails) => {
   const existingUser = await UserRepo.findUserByEmail(userDetails.email);
@@ -90,6 +91,32 @@ export const createUserService = async (userDetails) => {
       role: savedUser.role,
       isActive: savedUser.isActive,
     },
+  };
+};
+
+export const bootstrapSuperAdminService = async (userDetails) => {
+  const existingUser = await UserRepo.findUserByEmail(userDetails.email);
+
+  if (existingUser) {
+    throw new AppError({
+      httpStatusCode: 409,
+      message: "User already exists",
+      error: new Error("User already exists"),
+    });
+  }
+
+  const savedUser = await UserRepo.createUser({
+    email: userDetails.email,
+    password: userDetails.password,
+    role: ROLES.SUPERADMIN,
+    isActive: true,
+  });
+
+  return {
+    userId: savedUser._id,
+    email: savedUser.email,
+    role: savedUser.role,
+    isActive: savedUser.isActive,
   };
 };
 

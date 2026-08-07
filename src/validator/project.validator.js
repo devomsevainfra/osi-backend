@@ -40,8 +40,8 @@ export const updateProjectRequestSchema = z.object({
   query: z.object({}).optional(),
   headers: z.object({}).optional(),
   cookies: z.object({
-    accessToken: AppValidator.accessToken,
-  }),
+    accessToken: AppValidator.accessToken.optional(),
+  }).optional(),
 });
 
 export const deleteProjectRequestSchema = z.object({
@@ -52,8 +52,8 @@ export const deleteProjectRequestSchema = z.object({
   query: z.object({}).optional(),
   headers: z.object({}).optional(),
   cookies: z.object({
-    accessToken: AppValidator.accessToken,
-  }),
+    accessToken: AppValidator.accessToken.optional(),
+  }).optional(),
 });
 
 const booleanFromFormData = z.preprocess((value) => {

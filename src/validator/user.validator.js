@@ -12,8 +12,8 @@ export const createUserRequestSchema = z.object({
   query: z.object({}).optional(),
   headers: z.object({}).optional(),
   cookies: z.object({
-    accessToken: AppValidator.accessToken,
-  }),
+    accessToken: AppValidator.accessToken.optional(),
+  }).optional(),
 });
 
 export const loginUserRequestSchema = z.object({
@@ -33,8 +33,8 @@ export const logoutUserRequestSchema = z.object({
   query: z.object({}).optional(),
   headers: z.object({}).optional(),
   cookies: z.object({
-    accessToken: AppValidator.accessToken,
-  }),
+    accessToken: AppValidator.accessToken.optional(),
+  }).optional(),
 });
 
 export const deleteUserRequestSchema = z.object({
@@ -47,8 +47,8 @@ export const deleteUserRequestSchema = z.object({
   query: z.object({}).optional(),
   headers: z.object({}).optional(),
   cookies: z.object({
-    accessToken: AppValidator.accessToken,
-  }),
+    accessToken: AppValidator.accessToken.optional(),
+  }).optional(),
 });
 
 export const changeEmailRequestSchema = z.object({
@@ -60,8 +60,8 @@ export const changeEmailRequestSchema = z.object({
   query: z.object({}).optional(),
   headers: z.object({}).optional(),
   cookies: z.object({
-    accessToken: AppValidator.accessToken,
-  }),
+    accessToken: AppValidator.accessToken.optional(),
+  }).optional(),
 });
 
 export const changePasswordRequestSchema = z.object({
@@ -73,8 +73,8 @@ export const changePasswordRequestSchema = z.object({
   query: z.object({}).optional(),
   headers: z.object({}).optional(),
   cookies: z.object({
-    accessToken: AppValidator.accessToken,
-  }),
+    accessToken: AppValidator.accessToken.optional(),
+  }).optional(),
 });
 
 export const getUserByIdRequestSchema = z.object({
@@ -82,7 +82,7 @@ export const getUserByIdRequestSchema = z.object({
   params: z.object({}).optional(),
   query: z.object({}).optional(),
   headers: z.object({}).optional(),
-  cookies: z.object({ accessToken: AppValidator.accessToken }),
+  cookies: z.object({ accessToken: AppValidator.accessToken.optional() }).optional(),
 });
 
 export const changeRoleRequestSchema = z.object({
@@ -93,7 +93,7 @@ export const changeRoleRequestSchema = z.object({
   params: z.object({}).optional(),
   query: z.object({}).optional(),
   headers: z.object({}).optional(),
-  cookies: z.object({ accessToken: AppValidator.accessToken }),
+  cookies: z.object({ accessToken: AppValidator.accessToken.optional() }).optional(),
 });
 
 export const toggleUserStatusRequestSchema = z.object({
@@ -104,7 +104,7 @@ export const toggleUserStatusRequestSchema = z.object({
   params: z.object({}).optional(),
   query: z.object({}).optional(),
   headers: z.object({}).optional(),
-  cookies: z.object({ accessToken: AppValidator.accessToken }),
+  cookies: z.object({ accessToken: AppValidator.accessToken.optional() }).optional(),
 });
 
 export const changeMyPasswordRequestSchema = z.object({
@@ -112,7 +112,7 @@ export const changeMyPasswordRequestSchema = z.object({
   params: z.object({}).optional(),
   query: z.object({}).optional(),
   headers: z.object({}).optional(),
-  cookies: z.object({ accessToken: AppValidator.accessToken }),
+  cookies: z.object({ accessToken: AppValidator.accessToken.optional() }).optional(),
 });
 
 export const changeMyEmailRequestSchema = z.object({
@@ -120,5 +120,5 @@ export const changeMyEmailRequestSchema = z.object({
   params: z.object({}).optional(),
   query: z.object({}).optional(),
   headers: z.object({}).optional(),
-  cookies: z.object({ accessToken: AppValidator.accessToken }),
+  cookies: z.object({ accessToken: AppValidator.accessToken.optional() }).optional(),
 });

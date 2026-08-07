@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { ALL_ROLES, ROLES } from "../constants/roles.constants.js";
 
 const userSchema = new mongoose.Schema(
   {
@@ -19,9 +20,9 @@ const userSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      enum: ["SUPERADMIN", "ADMIN", "ENGINEER", "RECRUITER", "USER"],
+      enum: ALL_ROLES,
       required: true,
-      default: "USER",
+      default: ROLES.USER,
     },
 
     isActive: {

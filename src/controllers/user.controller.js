@@ -1,5 +1,4 @@
 import AppError from "../utils/AppError.utils.js";
-import * as AppConstants from "./../constants/app.constants.js";
 import * as UserService from "./../services/user.service.js";
 import ApiResponse from "./../utils/ApiResponse.utils.js";
 
@@ -10,13 +9,12 @@ export const loginUserController = async (req, res) => {
   };
 
   const loggedInUser = await UserService.loginUserService(userDetails);
-
   return res
     .status(200)
     .cookie(
       "accessToken",
       loggedInUser.accessToken,
-      AppConstants.COOKIE_OPTIONS
+      process.env.COOKIE_OPTIONS
     )
     .json(
       new ApiResponse({
@@ -37,7 +35,7 @@ export const logoutUserController = async (req, res) => {
       .status(200)
       .clearCookie("accessToken", {
         httpOnly: true,
-        secure: AppConstants.NODE_ENV === "production",
+        secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
       })
       .json(
@@ -71,6 +69,34 @@ export const createUserController = async (req, res) => {
       httpStatusCode: 201,
       message: "User Creation Successful!",
       data: createdUser.data,
+    })
+  );
+};
+
+export const bootstrapSuperAdminController = async (req, res) => {
+  const email = process.env.SUPERADMIN_EMAIL;
+  const password = process.env.SUPERADMIN_PASSWORD;
+
+  if (!email || !password) {
+    throw new AppError({
+      httpStatusCode: 503,
+      message: "SUPERADMIN bootstrap is not configured",
+      error: new Error(
+        "SUPERADMIN_EMAIL and SUPERADMIN_PASSWORD must be configured"
+      ),
+    });
+  }
+
+  const superAdmin = await UserService.bootstrapSuperAdminService({
+    email,
+    password,
+  });
+
+  return res.status(201).json(
+    new ApiResponse({
+      httpStatusCode: 201,
+      message: "Initial SUPERADMIN user created successfully",
+      data: superAdmin,
     })
   );
 };

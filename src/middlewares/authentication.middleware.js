@@ -3,8 +3,20 @@ import Session from "../models/session.model.js";
 import AppError from "../utils/AppError.utils.js";
 
 const authenticate = async (req, res, next) => {
-  const accessToken = req.cookies.accessToken;
-  // const accessToken = req.validated.cookies.accessToken;
+  const authorization = req.get("authorization");
+  const bearerToken = authorization?.match(/^Bearer\s+(.+)$/i)?.[1];
+  const accessToken = req.cookies.accessToken || bearerToken;
+
+  if (!accessToken) {
+    console.error("Access token missing");
+    return next(
+      new AppError({
+        httpStatusCode: 401,
+        message: "Authentication required",
+        error: new Error("Access token missing"),
+      })
+    );
+  }
 
   const accessTokenResult = Token.verifyToken({
     value: accessToken,
@@ -22,6 +34,7 @@ const authenticate = async (req, res, next) => {
     const existingSession = await Session.findById(sessionId);
 
     if (!existingSession) {
+      console.log("Session not found");
       return next(
         new AppError({
           httpStatusCode: 401,
@@ -44,9 +57,7 @@ const authenticate = async (req, res, next) => {
         role,
       });
 
-      res.cookie("accessToken", newAccessToken, {
-        maxAge: 1000 * 60 * 60 * 24,
-      });
+      res.cookie("accessToken", newAccessToken, process.env.COOKIE_OPTIONS);
 
       req.authenticatedUser = {
         userId: existingSession.userId,
@@ -54,13 +65,12 @@ const authenticate = async (req, res, next) => {
         role,
       };
       console.log("REFRESHED ACCESS TOKEN");
-
       return next();
     } else {
-      imp;
       await Session.deleteOne({ _id: existingSession._id });
+      console.log("DELETED SESSION");
     }
-
+    console.log("REFRESH TOKEN INVALID");
     return next(
       new AppError({
         httpStatusCode: 401,
@@ -71,6 +81,7 @@ const authenticate = async (req, res, next) => {
   }
 
   // INVALID or INTERNAL_SERVER_ERROR
+  console.log("TOKEN VERIFICATION FAILED");
   return next(
     new AppError({
       httpStatusCode: 401,

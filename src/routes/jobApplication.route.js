@@ -4,6 +4,7 @@ import asyncHandler from "./../utils/asyncHandler.utils.js";
 import validate from "./../middlewares/validate.middleware.js";
 import authenticate from "./../middlewares/authentication.middleware.js";
 import authorize from "./../middlewares/authorization.middleware.js";
+import { ROLES } from "./../constants/roles.constants.js";
 
 import * as JobApplicationValidator from "./../validator/jobApplication.validator.js";
 import * as JobApplicationController from "./../controllers/jobApplication.controller.js";
@@ -21,7 +22,7 @@ jobApplicationRouter.post(
 jobApplicationRouter.get(
   "/getApplications",
   asyncHandler(authenticate),
-  asyncHandler(authorize("ADMIN", "RECRUITER")),
+  asyncHandler(authorize(ROLES.ADMIN, ROLES.RECRUITER)),
   validate(JobApplicationValidator.getJobApplicationsRequestSchema),
   asyncHandler(JobApplicationController.getJobApplicationsController)
 );
@@ -29,7 +30,7 @@ jobApplicationRouter.get(
 jobApplicationRouter.get(
   "/getApplicationById/:applicationId",
   asyncHandler(authenticate),
-  asyncHandler(authorize("ADMIN", "RECRUITER")),
+  asyncHandler(authorize(ROLES.ADMIN, ROLES.RECRUITER)),
   validate(JobApplicationValidator.getJobApplicationByIdRequestSchema),
   asyncHandler(JobApplicationController.getJobApplicationByIdController)
 );
@@ -37,7 +38,7 @@ jobApplicationRouter.get(
 jobApplicationRouter.patch(
   "/markApplicationAsRead/:applicationId",
   asyncHandler(authenticate),
-  asyncHandler(authorize("ADMIN", "RECRUITER")),
+  asyncHandler(authorize(ROLES.ADMIN, ROLES.RECRUITER)),
   validate(JobApplicationValidator.markJobApplicationAsReadRequestSchema),
   asyncHandler(JobApplicationController.markJobApplicationAsReadController)
 );
@@ -45,7 +46,7 @@ jobApplicationRouter.patch(
 jobApplicationRouter.patch(
   "/updateApplicationStatus/:applicationId",
   asyncHandler(authenticate),
-  asyncHandler(authorize("ADMIN", "RECRUITER")),
+  asyncHandler(authorize(ROLES.ADMIN, ROLES.RECRUITER)),
   validate(JobApplicationValidator.updateJobApplicationStatusRequestSchema),
   asyncHandler(JobApplicationController.updateJobApplicationStatusController)
 );
@@ -54,7 +55,7 @@ jobApplicationRouter.patch(
 jobApplicationRouter.delete(
   "/deleteApplication/:applicationId",
   asyncHandler(authenticate),
-  asyncHandler(authorize("ADMIN", "RECRUITER")),
+  asyncHandler(authorize(ROLES.ADMIN, ROLES.RECRUITER)),
   validate(JobApplicationValidator.deleteJobApplicationRequestSchema),
   asyncHandler(JobApplicationController.deleteJobApplicationController)
 );

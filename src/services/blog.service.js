@@ -63,6 +63,7 @@ export const getBlogsService = async ({ page, limit, isAdmin }) => {
     page,
     limit,
   });
+
   const totalPages = Math.ceil(totalBlogs / limit) || 1;
 
   return {

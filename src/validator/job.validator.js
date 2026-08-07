@@ -20,8 +20,8 @@ export const createJobRequestSchema = z.object({
   query: z.object({}).optional(),
   headers: z.object({}).optional(),
   cookies: z.object({
-    accessToken: AppValidator.accessToken,
-  }),
+    accessToken: AppValidator.accessToken.optional(),
+  }).optional(),
 });
 
 export const updateJobRequestSchema = z.object({
@@ -34,8 +34,8 @@ export const updateJobRequestSchema = z.object({
   query: z.object({}).optional(),
   headers: z.object({}).optional(),
   cookies: z.object({
-    accessToken: AppValidator.accessToken,
-  }),
+    accessToken: AppValidator.accessToken.optional(),
+  }).optional(),
 });
 
 export const deleteJobRequestSchema = z.object({
@@ -46,8 +46,8 @@ export const deleteJobRequestSchema = z.object({
   query: z.object({}).optional(),
   headers: z.object({}).optional(),
   cookies: z.object({
-    accessToken: AppValidator.accessToken,
-  }),
+    accessToken: AppValidator.accessToken.optional(),
+  }).optional(),
 });
 
 export const getJobsRequestSchema = z.object({

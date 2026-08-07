@@ -4,6 +4,7 @@ import asyncHandler from "./../utils/asyncHandler.utils.js";
 import validate from "./../middlewares/validate.middleware.js";
 import authenticate from "./../middlewares/authentication.middleware.js";
 import authorize from "./../middlewares/authorization.middleware.js";
+import { ROLES } from "./../constants/roles.constants.js";
 
 import * as Token from "./../utils/token.utils.js";
 import Session from "./../models/session.model.js";
@@ -12,6 +13,18 @@ import * as JobValidator from "./../validator/job.validator.js";
 import * as JobController from "./../controllers/job.controller.js";
 
 const jobRouter = express.Router();
+
+const PRIVILEGED_JOB_ROLES = new Set([
+  ROLES.ADMIN,
+  ROLES.RECRUITER,
+  ROLES.SUPERADMIN,
+]);
+
+const setPrivilegedJobUser = (req, role) => {
+  if (PRIVILEGED_JOB_ROLES.has(role)) {
+    req.isPrivilegedUser = true;
+  }
+};
 
 // Local, inline "soft auth" — same logic as authenticate(), but never blocks
 // the request. Used only on public GET routes so admin/recruiter callers
@@ -32,6 +45,7 @@ const optionalAuthenticate = async (req, res, next) => {
     if (accessTokenResult.status === "VALID") {
       const { userId, sessionId, role } = accessTokenResult.decoded;
       req.authenticatedUser = { userId, sessionId, role };
+      setPrivilegedJobUser(req, role);
       return next();
     }
 
@@ -66,6 +80,7 @@ const optionalAuthenticate = async (req, res, next) => {
           sessionId: existingSession._id,
           role,
         };
+        setPrivilegedJobUser(req, role);
 
         return next();
       }
@@ -80,7 +95,7 @@ const optionalAuthenticate = async (req, res, next) => {
 jobRouter.post(
   "/createJob",
   asyncHandler(authenticate),
-  asyncHandler(authorize("ADMIN", "RECRUITER")),
+  asyncHandler(authorize(ROLES.ADMIN, ROLES.RECRUITER)),
   validate(JobValidator.createJobRequestSchema),
   asyncHandler(JobController.createJobController)
 );
@@ -102,7 +117,7 @@ jobRouter.get(
 jobRouter.patch(
   "/updateJob/:jobId",
   asyncHandler(authenticate),
-  asyncHandler(authorize("ADMIN", "RECRUITER")),
+  asyncHandler(authorize(ROLES.ADMIN, ROLES.RECRUITER)),
   validate(JobValidator.updateJobRequestSchema),
   asyncHandler(JobController.updateJobByIdController)
 );
@@ -110,7 +125,7 @@ jobRouter.patch(
 jobRouter.delete(
   "/deleteJob/:jobId",
   asyncHandler(authenticate),
-  asyncHandler(authorize("ADMIN", "RECRUITER")),
+  asyncHandler(authorize(ROLES.ADMIN, ROLES.RECRUITER)),
   validate(JobValidator.deleteJobRequestSchema),
   asyncHandler(JobController.deleteJobByIdController)
 );

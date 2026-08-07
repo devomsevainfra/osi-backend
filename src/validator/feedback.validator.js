@@ -37,6 +37,6 @@ export const markFeedbackAsReadRequestSchema = z.object({
   query: z.object({}).optional(),
   headers: z.object({}).optional(),
   cookies: z.object({
-    accessToken: AppValidator.accessToken,
-  }),
+    accessToken: AppValidator.accessToken.optional(),
+  }).optional(),
 });

@@ -7,6 +7,7 @@ import asyncHandler from "./../utils/asyncHandler.utils.js";
 import validate from "./../middlewares/validate.middleware.js";
 import authenticate from "./../middlewares/authentication.middleware.js";
 import authorize from "./../middlewares/authorization.middleware.js";
+import { ROLES } from "./../constants/roles.constants.js";
 import AppError from "./../utils/AppError.utils.js";
 import * as Token from "./../utils/token.utils.js";
 import Session from "./../models/session.model.js";
@@ -165,7 +166,7 @@ const deleteBlogSchema = z.object({
 blogRouter.post(
   "/",
   asyncHandler(authenticate),
-  asyncHandler(authorize("ADMIN")),
+  asyncHandler(authorize(ROLES.ADMIN)),
   imageUpload,
   validate(createBlogSchema),
   asyncHandler(BlogController.createBlogController)
@@ -188,7 +189,7 @@ blogRouter.get(
 blogRouter.put(
   "/:id",
   asyncHandler(authenticate),
-  asyncHandler(authorize("ADMIN")),
+  asyncHandler(authorize(ROLES.ADMIN)),
   imageUpload,
   validate(updateBlogSchema),
   asyncHandler(BlogController.updateBlogController)
@@ -197,7 +198,7 @@ blogRouter.put(
 blogRouter.delete(
   "/:id",
   asyncHandler(authenticate),
-  asyncHandler(authorize("ADMIN")),
+  asyncHandler(authorize(ROLES.ADMIN)),
   validate(deleteBlogSchema),
   asyncHandler(BlogController.deleteBlogController)
 );

@@ -50,8 +50,8 @@ export const getJobApplicationsRequestSchema = z.object({
   }),
   headers: z.object({}).optional(),
   cookies: z.object({
-    accessToken: AppValidator.accessToken,
-  }),
+    accessToken: AppValidator.accessToken.optional(),
+  }).optional(),
 });
 
 export const getJobApplicationByIdRequestSchema = z.object({
@@ -62,8 +62,8 @@ export const getJobApplicationByIdRequestSchema = z.object({
   query: z.object({}).optional(),
   headers: z.object({}).optional(),
   cookies: z.object({
-    accessToken: AppValidator.accessToken,
-  }),
+    accessToken: AppValidator.accessToken.optional(),
+  }).optional(),
 });
 
 export const markJobApplicationAsReadRequestSchema = z.object({
@@ -74,8 +74,8 @@ export const markJobApplicationAsReadRequestSchema = z.object({
   query: z.object({}).optional(),
   headers: z.object({}).optional(),
   cookies: z.object({
-    accessToken: AppValidator.accessToken,
-  }),
+    accessToken: AppValidator.accessToken.optional(),
+  }).optional(),
 });
 
 export const updateJobApplicationStatusRequestSchema = z.object({
@@ -88,8 +88,8 @@ export const updateJobApplicationStatusRequestSchema = z.object({
   query: z.object({}).optional(),
   headers: z.object({}).optional(),
   cookies: z.object({
-    accessToken: AppValidator.accessToken,
-  }),
+    accessToken: AppValidator.accessToken.optional(),
+  }).optional(),
 });
 
 export const deleteJobApplicationRequestSchema = z.object({
@@ -100,6 +100,6 @@ export const deleteJobApplicationRequestSchema = z.object({
   query: z.object({}).optional(),
   headers: z.object({}).optional(),
   cookies: z.object({
-    accessToken: AppValidator.accessToken,
-  }),
+    accessToken: AppValidator.accessToken.optional(),
+  }).optional(),
 });

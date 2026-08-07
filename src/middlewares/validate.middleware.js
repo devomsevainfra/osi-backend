@@ -1,5 +1,4 @@
 import { ZodError } from "zod";
-import Logger from "../utils/Logger.utils.js";
 import AppError from "./../utils/AppError.utils.js";
 const validate = (schema) => {
   return async (req, res, next) => {

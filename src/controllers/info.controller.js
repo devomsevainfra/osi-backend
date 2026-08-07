@@ -5,7 +5,6 @@ import { dirname, join } from "path";
 import asyncHandler from "./../utils/asyncHandler.utils.js";
 import ApiResponse from "./../utils/ApiResponse.utils.js";
 import AppError from "../utils/AppError.utils.js";
-import * as AppConstants from "../constants/app.constants.js";
 
 const packageJson = JSON.parse(
   readFileSync(
@@ -43,8 +42,8 @@ const getServerHealth = () => {
   const response = {
     name: packageJson.name,
     version: packageJson.version,
-    environment: AppConstants.NODE_ENV,
-    port: AppConstants.PORT,
+    environment: process.env.NODE_ENV,
+    port: process.env.PORT,
     nodeVersion: process.version,
     uptimeSeconds,
     uptime: formatUptime(uptimeSeconds),

@@ -13,7 +13,7 @@ export const getBlogsPaginated = withMongoErrorHandling(
     const skip = (page - 1) * limit;
 
     const [blogs, totalBlogs] = await Promise.all([
-      Blog.find(filter)
+      Blog.find()
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit)

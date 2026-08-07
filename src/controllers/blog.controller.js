@@ -19,7 +19,7 @@ export const createBlogController = async (req, res) => {
 export const getBlogsController = async (req, res) => {
   const result = await BlogService.getBlogsService({
     ...req.validated.query,
-    isAdmin: req.authenticatedUser?.role === "ADMIN",
+    isAdmin: ["ADMIN", "SUPERADMIN"].includes(req.authenticatedUser?.role),
   });
 
   return res.status(200).json(
@@ -34,7 +34,7 @@ export const getBlogsController = async (req, res) => {
 export const getBlogBySlugController = async (req, res) => {
   const result = await BlogService.getBlogBySlugService({
     slug: req.validated.params.slug,
-    isAdmin: req.authenticatedUser?.role === "ADMIN",
+    isAdmin: ["ADMIN", "SUPERADMIN"].includes(req.authenticatedUser?.role),
   });
 
   return res.status(200).json(
